@@ -1,7 +1,5 @@
 FROM luislin/cacti:1.0
 ADD cacti-1.2.2.tar.gz /var/www/html/
-WORKDIR /var/www/html
-RUN mv cacti-1.2.2/ cacti/
 
 ADD rrdtool-1.7.1.tar.gz /usr/local/
 ADD cacti-spine-1.2.2.tar.gz /usr/local/
@@ -33,8 +31,9 @@ RUN sed 's/cactiuser/cacti/g' -i spine.conf.dist
 RUN /etc/init.d/cron start \
 	&& echo '*/5 * * * * cactiuser php /var/www/html/cacti/poller.php > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
 
+COPY docker-entrypoint.sh /usr/local/bin/
 
-ENTRYPOINT ["docker-php-entrypoint"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 WORKDIR /var/www/html
 
