@@ -1,0 +1,1 @@
+FROM quay.io/kubernetes-ingress-controller/grpc-fortune-teller:0.1
